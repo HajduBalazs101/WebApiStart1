@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiStart1.Services;
 using WebApiStart1.Models;
+using WebApiStart1.DTOs;
+using System.Data;
 
 namespace WebApiStart1.Controllers
 {
@@ -49,6 +51,30 @@ namespace WebApiStart1.Controllers
             {
                 return BadRequest("Hiba történt: " + ex.Message);
             }
+        }
+
+        [HttpGet("NevHatoanyag")]
+        public IActionResult NevHatoanyag()
+        {
+            try
+            { 
+                List<NevHatoanyagDTO> result = new GyogyszerService().GetAllGyogyszer().Select(g => new NevHatoanyagDTO()
+                {
+                    Id = g.Id,
+                    Nev = g.Nev,
+                    Hatoanyag = g.Hatoanyag
+                }).ToList();
+                if (result is not null)
+                {
+                    return Ok(result);
+                }
+                else return NotFound("Nincs megjeleníthető adat");
+            }
+            catch(Exception ex)
+            { 
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
