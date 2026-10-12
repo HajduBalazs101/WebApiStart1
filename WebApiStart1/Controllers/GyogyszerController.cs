@@ -77,7 +77,7 @@ namespace WebApiStart1.Controllers
 
         }
         [HttpGet("NevhatoanyagGetById/{id}")]
-        public IActionResult NevHatoanyagById(int id)
+        public IActionResult NevHatoanyagById(int id) //kesz
         {
             try
             {
