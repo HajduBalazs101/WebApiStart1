@@ -76,5 +76,29 @@ namespace WebApiStart1.Controllers
             }
 
         }
+        [HttpGet("NevhatoanyagGetById/{id}")]
+        public IActionResult NevHatoanyagById(int id)
+        {
+            try
+            {
+                Gyogyszer gyogyszer = new GyogyszerService().GetById(id);
+                if (gyogyszer is not null)
+                {
+                    NevHatoanyagDTO dto = new NevHatoanyagDTO()
+                    {
+                        Id = gyogyszer.Id,
+                        Nev = gyogyszer.Nev,
+                        Hatoanyag = gyogyszer.Hatoanyag
+                    };
+                    return Ok(dto);
+                }
+                else return NotFound("Nincs megjeleníthető adat");
+            }
+        catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
+
 }
