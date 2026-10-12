@@ -13,14 +13,28 @@ namespace WebApiStart1.Controllers
         public IActionResult GetAllGyogyszer()
         {
             List<Gyogyszer> gyogyszerek = new GyogyszerService().GetAllGyogyszer();
-            return Ok(gyogyszerek);
+            if (gyogyszerek.Count > 0)
+            {
+                return Ok(gyogyszerek);
+            }
+            else
+            {
+                return BadRequest("Hiba");
+            }
         }
 
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
         {
             Gyogyszer result = new GyogyszerService().GetById(id);
-            return Ok(result);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound("Nincs ilyen azonosítójú gyógyszer!");
+            }
         }
     }
 }
