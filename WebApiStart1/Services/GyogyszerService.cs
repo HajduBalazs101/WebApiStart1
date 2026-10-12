@@ -42,7 +42,7 @@ namespace WebApiStart1.Services
         {
             try
             {
-                Gyogyszer result = new Gyogyszer();
+                Gyogyszer result = null;
 
                 string connectionString = "SERVER = localhost;" +
                                  "DATABASE= patika;" +
@@ -56,6 +56,7 @@ namespace WebApiStart1.Services
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
+                    result = new Gyogyszer();
                     result.Id = reader.GetInt32("Id");
                     result.Nev = reader.GetString("Nev");
                     result.Hatoanyag = reader.GetString("Hatoanyag");
