@@ -72,8 +72,9 @@ namespace WebApiStart1.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Hiba történt: " + ex.Message);
-                return null;
+                throw new Exception(ex.Message, ex);
+                //Console.WriteLine("Hiba történt az adatok lekérdezése során: " + ex.Message);
+                //return null;
             }
         }
     }

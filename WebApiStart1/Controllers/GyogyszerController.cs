@@ -26,14 +26,21 @@ namespace WebApiStart1.Controllers
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
         {
-            Gyogyszer result = new GyogyszerService().GetById(id);
-            if (result is not null)
+            try
             {
-                return Ok(result);
+                Gyogyszer result = new GyogyszerService().GetById(id);
+                if (result is not null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("Nincs ilyen azonosítójú gyógyszer!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound("Nincs ilyen azonosítójú gyógyszer!");
+                return BadRequest("Hiba történt: " + ex.Message);
             }
         }
     }
