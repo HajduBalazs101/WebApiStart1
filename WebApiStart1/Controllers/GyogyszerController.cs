@@ -12,14 +12,21 @@ namespace WebApiStart1.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAllGyogyszer()
         {
-            List<Gyogyszer> gyogyszerek = new GyogyszerService().GetAllGyogyszer();
-            if (gyogyszerek.Count > 0)
+            try
             {
-                return Ok(gyogyszerek);
+                List<Gyogyszer> gyogyszerek = new GyogyszerService().GetAllGyogyszer();
+                if (gyogyszerek.Count > 0)
+                {
+                    return Ok(gyogyszerek);
+                }
+                else
+                {
+                    return NotFound("Nincs megjeleníthető adat");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("Hiba");
+                return StatusCode(500, ex.Message);
             }
         }
 

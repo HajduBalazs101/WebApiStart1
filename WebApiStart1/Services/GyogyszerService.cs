@@ -11,31 +11,38 @@ namespace WebApiStart1.Services
     {
         public List<Gyogyszer> GetAllGyogyszer()
         {
-            List<Gyogyszer> gyogyszerek = new List<Gyogyszer>();
-            string connectionString = "SERVER = localhost;" +
-                          "DATABASE= patika;" +
-                          "UID = root;" +
-                          "PASSWORD =;";
-            MySqlConnection conn = new MySqlConnection();
-            conn.ConnectionString = connectionString;
-            conn.Open();
-            string sql = "SELECT * FROM gyogyszer";
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.CommandText = sql;
-            cmd.Connection = conn;
-            MySqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                Gyogyszer gyogyszer = new Gyogyszer();
-                gyogyszer.Id = reader.GetInt32("Id");
-                gyogyszer.Nev = reader.GetString("Nev");
-                gyogyszer.Hatoanyag = reader.GetString("Hatoanyag");
-                gyogyszer.Venykoteles = reader.GetBoolean("Venykoteles");
-                gyogyszer.kepnev = reader.GetString("kepnev");
-                gyogyszerek.Add(gyogyszer);
+                List<Gyogyszer> gyogyszerek = new List<Gyogyszer>();
+                string connectionString = "SERVER = localhost;" +
+                              "DATABASE= patika;" +
+                              "UID = root;" +
+                              "PASSWORD =;";
+                MySqlConnection conn = new MySqlConnection();
+                conn.ConnectionString = connectionString;
+                conn.Open();
+                string sql = "SELECT * FROM gyogyszer";
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.CommandText = sql;
+                cmd.Connection = conn;
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Gyogyszer gyogyszer = new Gyogyszer();
+                    gyogyszer.Id = reader.GetInt32("Id");
+                    gyogyszer.Nev = reader.GetString("Nev");
+                    gyogyszer.Hatoanyag = reader.GetString("Hatoanyag");
+                    gyogyszer.Venykoteles = reader.GetBoolean("Venykoteles");
+                    gyogyszer.kepnev = reader.GetString("kepnev");
+                    gyogyszerek.Add(gyogyszer);
+                }
+                conn.Close();
+                return gyogyszerek;
             }
-            conn.Close();
-            return gyogyszerek;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public Gyogyszer GetById(int id)
